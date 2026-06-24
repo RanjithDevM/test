@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="AI Desk.png" type="image/png">
+    <title>AI Desk - Discover the Best AI Tools</title>
+    <!-- Hicheta font via CDN (Google Fonts alternative) -->
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.cdnfonts.com/css/hicheta');
+
+        :root {
+            --sky: #CBDDE9;
+            --ocean: #2872A1;
+            --ocean-dark: #1a5580;
+            --ocean-light: #3a8bbf;
+            --white: #ffffff;
+            --sky-dark: #a8c4d6;
+            --text-dark: #0e3a54;
+            --text-mid: #2c5f7a;
+            --text-muted: #5b8ca6;
+            --card-bg: rgba(255,255,255,0.92);
+            --shadow: rgba(40,114,161,0.15);
+            --shadow-hover: rgba(40,114,161,0.30);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hicheta', 'Josefin Sans', 'Segoe UI', sans-serif;
+            background: linear-gradient(160deg, #CBDDE9 0%, #88b8d4 40%, #2872A1 100%);
+            min-height: 100vh;
+            color: var(--text-dark);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ── HEADER ── */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 50px 20px 30px;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background: var(--white);
+            margin: 18px auto 0;
+            border-radius: 2px;
+            opacity: 0.7;
+        }
+
+        .header h1 {
+            font-family: 'Hicheta', 'Josefin Sans', sans-serif;
+            font-size: 3.4rem;
+            font-weight: 700;
+            color: var(--white);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-shadow: 0 2px 20px rgba(14,58,84,0.25);
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.05rem;
+            color: rgba(255,255,255,0.88);
+            letter-spacing: 1px;
+            font-weight: 300;
+        }
+
+        /* ── STATS ── */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.18);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.35);
+            padding: 16px 30px;
+            border-radius: 14px;
+            text-align: center;
+            color: var(--white);
+            min-width: 130px;
+        }
+
+        .stat-number {
+            font-family: 'Hicheta', 'Josefin Sans', sans-serif;
+            font-size: 1.7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .stat-label {
+            font-size: 0.78rem;
+            opacity: 0.82;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        /* ── FILTERS ── */
+        .filters {
+            background: rgba(255,255,255,0.18);
+            backdrop-filter: blur(14px);
+            border-radius: 18px;
+            padding: 28px 32px;
+            margin-bottom: 36px;
+            border: 1px solid rgba(255,255,255,0.35);
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .filter-group label {
+            color: var(--white);
+            font-weight: 600;
+            font-size: 0.78rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.9;
+        }
+
+        select, input {
+            padding: 11px 16px;
+            border: 1.5px solid rgba(255,255,255,0.45);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.88);
+            font-family: 'Hicheta', 'Josefin Sans', sans-serif;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            min-width: 200px;
+            transition: all 0.25s ease;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--ocean);
+            background: var(--white);
+            box-shadow: 0 0 0 3px rgba(40,114,161,0.18);
+            transform: translateY(-1px);
+        }
+
+        input::placeholder {
+            color: var(--text-muted);
+            opacity: 0.8;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        /* ── TOOLS GRID ── */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 22px;
+            margin-top: 10px;
+        }
+
+        /* ── TOOL CARD ── */
+        .tool-card {
+            background: var(--card-bg);
+            border-radius: 18px;
+            padding: 24px 26px;
+            box-shadow: 0 6px 24px var(--shadow);
+            transition: transform 0.28s ease, box-shadow 0.28s ease;
+            border: 1px solid rgba(203,221,233,0.6);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--sky), var(--ocean), var(--sky-dark));
+        }
+
+        .tool-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 16px 36px var(--shadow-hover);
+        }
+
+        .tool-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            gap: 10px;
+        }
+
+        .tool-name {
+            font-family: 'Hicheta', 'Josefin Sans', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            letter-spacing: 1px;
+        }
+
+        .tool-category {
+            background: linear-gradient(135deg, var(--ocean), var(--ocean-dark));
+            color: var(--white);
+            padding: 5px 13px;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .tool-description {
+            color: var(--text-mid);
+            line-height: 1.65;
+            font-size: 0.93rem;
+            margin-bottom: 18px;
+        }
+
+        .tool-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .pricing-badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.82rem;
+            letter-spacing: 0.5px;
+        }
+
+        .pricing-free {
+            background: #dff2eb;
+            color: #155724;
+        }
+
+        .pricing-paid {
+            background: #fde8e8;
+            color: #7a1c1c;
+        }
+
+        .pricing-freemium {
+            background: #e8f4fb;
+            color: var(--ocean-dark);
+        }
+
+        /* fallback for non-standard pricing strings */
+        .pricing-badge:not(.pricing-free):not(.pricing-paid):not(.pricing-freemium) {
+            background: var(--sky);
+            color: var(--ocean-dark);
+        }
+
+        .tool-link {
+            background: linear-gradient(135deg, var(--ocean), var(--ocean-dark));
+            color: var(--white);
+            padding: 9px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.88rem;
+            letter-spacing: 0.5px;
+            transition: all 0.25s ease;
+        }
+
+        .tool-link:hover {
+            background: linear-gradient(135deg, var(--ocean-light), var(--ocean));
+            transform: scale(1.04);
+            box-shadow: 0 4px 14px rgba(40,114,161,0.35);
+        }
+
+        /* ── NO RESULTS ── */
+        .no-results {
+            text-align: center;
+            color: var(--white);
+            font-size: 1.1rem;
+            margin-top: 50px;
+            padding: 40px;
+            background: rgba(255,255,255,0.12);
+            border-radius: 18px;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        /* ── FOOTER CREDIT ── */
+        .footer-credit {
+            text-align: center;
+            padding: 30px 0 20px;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.2rem;
+            }
+
+            .filter-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            select, input {
+                min-width: unset;
+                width: 100%;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 AI Desk</h1>
+            <p>Discover and explore the best AI tools for every need</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number" id="totalTools">0</div>
+                <div class="stat-label">Total Tools</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="freeTools">0</div>
+                <div class="stat-label">Free Tools</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="categories">0</div>
+                <div class="stat-label">Categories</div>
+            </div>
+        </div>
+
+        <div class="filters">
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label for="categoryFilter">Category</label>
+                    <select id="categoryFilter">
+                        <option value="">All Categories</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="pricingFilter">Pricing</label>
+                    <select id="pricingFilter">
+                        <option value="">All Pricing</option>
+                        <option value="free">Free</option>
+                        <option value="paid">Paid</option>
+                        <option value="freemium">Freemium</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group search-box">
+                    <label for="searchInput">Search Tools</label>
+                    <input type="text" id="searchInput" placeholder="Search by name or description...">
+                </div>
+            </div>
+        </div>
+
+        <div class="tools-grid" id="toolsGrid"></div>
+
+        <div class="no-results" id="noResults" style="display: none;">
+            <h3>🔍 No tools found</h3>
+            <p>Try adjusting your filters or search terms</p>
+        </div>
+
+        <div class="footer-credit">
+            <p>Made by Ranjith Dev M. &nbsp;·&nbsp; Made for ALL 🤍</p>
+        </div>
+    </div>
+
+    <script>
+        const aiTools = [
+            { name: "ChatGPT", category: "Conversational AI", description: "Advanced AI chatbot for conversations, writing, coding, and problem-solving with natural language processing.", pricing: "freemium", url: "https://chat.openai.com" },
+            { name: "Claude", category: "Conversational AI", description: "AI assistant focused on helpful, harmless, and honest conversations with strong reasoning capabilities.", pricing: "freemium", url: "https://claude.ai" },
+            { name: "Bard", category: "Conversational AI", description: "Google's conversational AI that provides information, answers questions, and assists with tasks.", pricing: "freemium", url: "https://bard.google.com" },
+            { name: "Midjourney", category: "Image Generation", description: "AI-powered image generation tool creating stunning artwork from text descriptions.", pricing: "paid", url: "https://midjourney.com" },
+            { name: "DALL-E 3", category: "Image Generation", description: "OpenAI's advanced image generation model that creates detailed images from text prompts.", pricing: "paid", url: "https://openai.com/dall-e-3" },
+            { name: "Stable Diffusion", category: "Image Generation", description: "Open-source text-to-image model for generating detailed images from textual descriptions.", pricing: "free", url: "https://stability.ai/stable-diffusion" },
+            { name: "GitHub Copilot", category: "Code Assistant", description: "AI pair programmer that helps you write code faster with intelligent suggestions.", pricing: "paid", url: "https://github.com/features/copilot" },
+            { name: "Tabnine", category: "Code Assistant", description: "AI code completion tool that integrates with your IDE to provide smart code suggestions.", pricing: "freemium", url: "https://www.tabnine.com" },
+            { name: "Codeium", category: "Code Assistant", description: "AI-powered code completion and suggestion tool for developers, enhancing coding efficiency.", pricing: "freemium", url: "https://codeium.com" },
+            { name: "Cursor", category: "Code Assistant", description: "AI-powered code editor built for productivity with intelligent code completion.", pricing: "freemium", url: "https://cursor.sh" },
+            { name: "Grammarly", category: "Writing Assistant", description: "AI writing assistant that helps improve grammar, clarity, and writing style.", pricing: "freemium", url: "https://grammarly.com" },
+            { name: "Jasper", category: "Writing Assistant", description: "AI content creation platform for marketing copy, blog posts, and creative writing.", pricing: "paid", url: "https://jasper.ai" },
+            { name: "Copy.ai", category: "Writing Assistant", description: "AI copywriting tool for creating marketing content, emails, and social media posts.", pricing: "freemium", url: "https://copy.ai" },
+            { name: "Runway ML", category: "Video Generation", description: "AI-powered creative tools for video editing, generation, and visual effects.", pricing: "freemium", url: "https://runwayml.com" },
+            { name: "DeepAI", category: "Image Generation", description: "AI platform providing various tools for image generation, text-to-image, and more.", pricing: "freemium", url: "https://deepai.org" },
+            { name: "DeepL Translator", category: "Translation", description: "AI-powered translation service known for its accuracy and natural language processing.", pricing: "freemium", url: "https://deepl.com/translator" },
+            { name: "Descript", category: "Audio/Video Editing", description: "AI-powered audio and video editing tool with transcription and collaboration features.", pricing: "freemium", url: "https://www.descript.com" },
+            { name: "Loom AI", category: "Video Generation", description: "AI-enhanced screen recording and video messaging platform with smart features.", pricing: "freemium", url: "https://loom.com" },
+            { name: "ElevenLabs", category: "Audio Generation", description: "AI voice synthesis platform for creating realistic speech and voice cloning.", pricing: "freemium", url: "https://elevenlabs.io" },
+            { name: "Murf", category: "Audio Generation", description: "AI voice generator for creating professional voiceovers and speech synthesis.", pricing: "freemium", url: "https://murf.ai" },
+            { name: "Notion AI", category: "Productivity", description: "AI features integrated into Notion for writing, brainstorming, and content creation.", pricing: "freemium", url: "https://notion.so/product/ai" },
+            { name: "Zapier AI", category: "Productivity", description: "AI-powered automation platform connecting apps and streamlining workflows.", pricing: "freemium", url: "https://zapier.com/ai" },
+            { name: "Perplexity AI", category: "Research", description: "AI-powered search engine providing accurate answers with source citations.", pricing: "freemium", url: "https://perplexity.ai" },
+            { name: "Consensus", category: "Research", description: "AI research assistant that finds and synthesizes scientific papers and academic research.", pricing: "freemium", url: "https://consensus.app" },
+            { name: "Adobe Firefly", category: "Design", description: "Adobe's AI creative tools for image generation, text effects, and design enhancement.", pricing: "freemium", url: "https://firefly.adobe.com" },
+            { name: "Synthesia", category: "Video Generation", description: "AI video creation platform that generates videos with AI avatars from text input.", pricing: "paid", url: "https://synthesia.io" },
+            { name: "Pictory", category: "Video Generation", description: "AI video creation tool that turns scripts and articles into engaging videos.", pricing: "freemium", url: "https://pictory.ai" },
+            { name: "Transcriptor", category: "Audio Processing", description: "AI-powered transcription service that converts audio and video to text.", pricing: "freemium", url: "https://transcriptor.com" },
+            { name: "Otter.ai", category: "Audio Processing", description: "AI meeting assistant that transcribes, summarizes, and analyzes conversations.", pricing: "freemium", url: "https://otter.ai" },
+            { name: "DeepL Write", category: "Writing Assistant", description: "AI tool for improving writing style, tone, and clarity in multiple languages.", pricing: "freemium", url: "https://www.deepl.com/write" },
+            { name: "Tome", category: "Presentation", description: "AI-powered storytelling tool for creating stunning presentations with ease.", pricing: "freemium", url: "https://tome.app" },
+            { name: "Soundraw", category: "Audio Generation", description: "AI music generator that helps creators produce unique background music for videos.", pricing: "freemium", url: "https://soundraw.io" },
+            { name: "Cleanup.pictures", category: "Image Editing", description: "AI tool that removes unwanted objects, people, or defects from images.", pricing: "freemium", url: "https://cleanup.pictures" },
+            { name: "Luma AI", category: "3D Modeling", description: "AI-powered tool that creates photorealistic 3D models from images or videos.", pricing: "freemium", url: "https://lumalabs.ai" },
+            { name: "Socratic", category: "Education", description: "Google's AI learning app that helps students understand their schoolwork.", pricing: "free", url: "https://socratic.org" },
+            { name: "Papercup", category: "Audio Translation", description: "AI tool that translates and dubs videos using synthetic voices.", pricing: "paid", url: "https://www.papercup.com" },
+            { name: "Reface", category: "Entertainment", description: "AI app that swaps faces in videos and GIFs for fun and content creation.", pricing: "freemium", url: "https://reface.ai" },
+            { name: "HeyGen", category: "Video Generation", description: "AI video creation platform with talking avatars for business communication.", pricing: "freemium", url: "https://www.heygen.com" },
+            { name: "Looka", category: "Design", description: "AI logo maker and branding tool to create professional-quality designs.", pricing: "paid", url: "https://looka.com" },
+            { name: "Canva AI", category: "Design", description: "AI-powered image generation and graphic design integrated into Canva's platform.", pricing: "freemium", url: "https://www.canva.com/ai-image-generator/" },
+            { name: "Fathom", category: "Meeting Assistant", description: "AI meeting note‑taking tool that records, transcribes, and summarizes calls.", pricing: "freemium", url: "https://fathom.video" },
+            { name: "Murf.ai", category: "Voice Generation", description: "AI platform for generating high‑quality voiceovers and synthetic speech.", pricing: "freemium", url: "https://murf.ai" },
+            { name: "DeepSeek", category: "Academic Writing Assistant", description: "Open‑source AI model for academic writing and research support.", pricing: "freemium", url: "https://deepseek.ai" },
+            { name: "Zapier Copilot", category: "Automation", description: "LLM‑powered assistant that helps create and manage automated workflows.", pricing: "freemium", url: "https://zapier.com" },
+            { name: "Runway Gen‑3", category: "Video Generation", description: "Text‑to‑video generation with lip‑sync, audio, and visual enhancements.", pricing: "freemium", url: "https://runwayml.com" },
+            { name: "CopySmith", category: "Writing Assistant", description: "AI tool for generating marketing copy, product descriptions, and blog posts.", pricing: "freemium", url: "https://copysmith.ai" },
+            { name: "Writesonic", category: "Writing Assistant", description: "AI writing assistant for creating articles, ads, and social media content.", pricing: "freemium", url: "https://writesonic.com" },
+            { name: "DeepBrain", category: "Video Generation", description: "AI video creation platform that generates videos from text input with avatars.", pricing: "paid", url: "https://deepbrain.io" },
+            { name: "Fireflies", category: "Meeting Assistant", description: "AI meeting assistant that records, transcribes, and summarizes meetings.", pricing: "freemium", url: "https://fireflies.ai" },
+            { name: "Tactiq", category: "Meeting Assistant", description: "AI tool for capturing and summarizing meeting notes from video calls.", pricing: "freemium", url: "https://tactiq.io" },
+            { name: "Scribe", category: "Documentation", description: "AI tool that automatically creates step-by-step guides and documentation.", pricing: "freemium", url: "https://scribehow.com" },
+            { name: "CopyDash", category: "Writing Assistant", description: "AI writing assistant for generating marketing copy, blog posts, and social media content.", pricing: "freemium", url: "https://copydash.ai" },
+            { name: "ChatGPT for Google", category: "Search Enhancement", description: "Browser extension that integrates ChatGPT responses into Google search results.", pricing: "free", url: "https://chrome.google.com/webstore/detail/chatgpt-for-google/ljfojmgfdkbcldfljkjkmlfdkj" },
+            { name: "Kuki", category: "Conversational AI", description: "AI chatbot that engages users in natural conversations and provides information.", pricing: "freemium", url: "https://www.kuki.ai" },
+            { name: "Replika", category: "Conversational AI", description: "AI companion chatbot that learns from conversations and provides emotional support.", pricing: "freemium", url: "https://replika.ai" },
+            { name: "Clueso", category: "Productivity", description: "AI tool for managing tasks, notes, and projects with smart suggestions.", pricing: "freemium", url: "https://clueso.io" },
+            { name: "Clippit.ai", category: "Video Summarization", description: "AI tool that automatically summarizes long videos into short, shareable clips.", pricing: "freemium", url: "https://www.clippit.ai" },
+            { name: "Friday", category: "Productivity Assistant", description: "AI-powered planner and work assistant that helps you manage tasks and meetings.", pricing: "freemium", url: "https://www.friday.app" },
+            { name: "MailMaestro", category: "Email Assistant", description: "AI tool that helps professionals write clear, concise, and smart emails quickly.", pricing: "freemium", url: "https://www.mailmaestro.com" },
+            { name: "Shortwalk", category: "Learning Assistant", description: "AI tool that explains complex topics from documents, websites, or PDFs in simplified formats.", pricing: "freemium", url: "https://www.shortwalk.ai" },
+            { name: "Superhuman", category: "Email Productivity", description: "AI-enhanced email client focused on speed, automation, and better email workflows.", pricing: "paid", url: "https://superhuman.com" },
+            { name: "NotebookLM", category: "Research Assistant", description: "Google's AI-powered tool that summarizes documents, notes, and sources to help users study and research more efficiently.", pricing: "freemium", url: "https://notebooklm.google.com" },
+            { name: "Agness.ai", category: "Virtual Assistant", description: "AI-based executive assistant for scheduling, task reminders, and handling calendar conflicts intelligently.", pricing: "freemium", url: "https://www.agness.ai" },
+            { name: "Notion", category: "Productivity", description: "All-in-one workspace with integrated AI tools for notes, task management, writing assistance, and collaboration.", pricing: "freemium", url: "https://www.notion.so" },
+            { name: "XIQ", category: "Sales Intelligence", description: "AI-powered sales enablement platform that provides buyer intent insights and predictive analytics.", pricing: "paid", url: "https://www.xiqinc.com" },
+            { name: "DealinTent", category: "Lead Generation", description: "AI tool that helps B2B businesses identify and connect with high-intent leads through behavioral analysis.", pricing: "freemium", url: "https://dealintent.com" },
+            { name: "Crystal", category: "Personality Insights", description: "AI tool that provides personality assessments to improve communication and sales conversations.", pricing: "freemium", url: "https://www.crystalknows.com" },
+            { name: "Humantic", category: "Sales Enablement", description: "AI platform that uses personality AI to tailor outreach for sales, hiring, and recruiting.", pricing: "freemium", url: "https://www.humantic.ai" },
+            { name: "Hyperbound", category: "Sales Personalization", description: "AI tool that creates personalized cold outreach messages using data from LinkedIn, Crunchbase, and more.", pricing: "freemium", url: "https://www.hyperbound.ai" },
+            { name: "Grok", category: "Chatbot", description: "Conversational AI assistant developed by xAI (Elon Musk) for engaging discussions and real-time answers.", pricing: "freemium", url: "https://x.com/grok" },
+            { name: "Jot", category: "AI Note-Taking", description: "Lightweight AI writing tool for jotting down thoughts and generating content instantly.", pricing: "freemium", url: "https://jot.live" },
+            { name: "Bot", category: "AI Agent Framework", description: "Tool for building autonomous AI bots and workflows without coding, optimized for flexibility and integration.", pricing: "freemium", url: "https://bot.dev" },
+            { name: "Quakle", category: "AI Q&A", description: "AI-based platform for asking and answering questions quickly and accurately using generative AI.", pricing: "freemium", url: "https://www.quakle.com" },
+            { name: "QuillBot", category: "Writing Assistant", description: "AI-powered paraphrasing tool that helps improve clarity, tone, and grammar.", pricing: "freemium", url: "https://www.quillbot.com" },
+            { name: "Rytr", category: "Writing Assistant", description: "AI content generator for blog posts, ads, and emails with multiple language support.", pricing: "freemium", url: "https://rytr.me" },
+            { name: "Sudowrite", category: "Creative Writing", description: "AI tool for fiction writers to brainstorm, write, and edit creatively with human-like prose.", pricing: "freemium", url: "https://www.sudowrite.com" },
+            { name: "Mem", category: "Productivity", description: "AI-powered workspace that automatically organizes your notes, thoughts, and meetings.", pricing: "freemium", url: "https://mem.ai" },
+            { name: "Tettra", category: "Knowledge Management", description: "AI-enhanced internal knowledge base built for teams to document and share company knowledge.", pricing: "freemium", url: "https://tettra.com" },
+            { name: "Avoma", category: "Meeting Assistant", description: "AI assistant for meeting transcription, summarization, and actionable insights.", pricing: "freemium", url: "https://www.avoma.com" },
+            { name: "Equal Time", category: "Meeting Analytics", description: "AI tool that ensures inclusive meetings by tracking who talks and for how long.", pricing: "freemium", url: "https://www.equaltime.io" },
+            { name: "Fellow.app", category: "Meeting Management", description: "Collaborative meeting agendas and note-taking assistant powered by AI.", pricing: "freemium", url: "https://fellow.app" },
+            { name: "Krisp", category: "Audio Processing", description: "AI-powered noise cancellation app that removes background noise in real time.", pricing: "freemium", url: "https://krisp.ai" },
+            { name: "Otter", category: "Meeting Assistant", description: "AI tool for transcribing, summarizing, and sharing meeting notes and conversations.", pricing: "freemium", url: "https://otter.ai" },
+            { name: "Make", category: "Automation", description: "No-code platform that lets you build workflows connecting apps and automating tasks with AI.", pricing: "freemium", url: "https://www.make.com" },
+            { name: "Integrately", category: "Automation", description: "1-click automation tool that connects apps and creates AI-powered workflows.", pricing: "freemium", url: "https://integrately.com" },
+            { name: "Monday.com", category: "Productivity", description: "Work management platform with integrated AI tools for tracking projects and workflows.", pricing: "paid", url: "https://monday.com" },
+            { name: "n8n", category: "Automation", description: "Open-source workflow automation tool that supports AI integrations.", pricing: "freemium", url: "https://n8n.io" },
+            { name: "Wrike", category: "Project Management", description: "AI-powered project management software with time tracking and collaboration tools.", pricing: "freemium", url: "https://www.wrike.com" },
+            { name: "Meta AI", category: "Chatbot", description: "Conversational AI by Meta for real-time chatting and question answering on Messenger and Instagram.", pricing: "freemium", url: "https://www.meta.ai" },
+            { name: "Slidesgo", category: "Presentation", description: "AI-powered slide generator and template library for creating beautiful presentations.", pricing: "freemium", url: "https://slidesgo.com" },
+            { name: "AutoDraw", category: "Design", description: "Google's AI-based drawing tool that turns rough sketches into professional icons and art.", pricing: "free", url: "https://www.autodraw.com" },
+            { name: "Framer", category: "Design", description: "AI-powered website and design tool that turns prompts into responsive, interactive sites.", pricing: "freemium", url: "https://www.framer.com" },
+            { name: "Microsoft Designer", category: "Design", description: "AI graphic design app that helps you create stunning visuals, social posts, and more with ease.", pricing: "freemium", url: "https://designer.microsoft.com" },
+            { name: "SalesHood", category: "Sales Enablement", description: "A platform that helps sales teams with training, onboarding, and coaching to improve performance.", pricing: "paid", url: "https://www.saleshood.com" },
+            { name: "Dialpad", category: "Communication", description: "An AI-powered cloud communication platform offering voice, video, and contact center solutions.", pricing: "freemium", url: "https://www.dialpad.com" },
+            { name: "People.ai", category: "Revenue Intelligence", description: "AI-powered platform that automatically captures and analyzes sales activity data to improve productivity.", pricing: "paid", url: "https://www.people.ai" },
+            { name: "Penny", category: "Sales Assistant", description: "An AI-powered virtual assistant designed to help direct sellers stay organized and productive.", pricing: "freemium", url: "https://getpenny.com" },
+            { name: "Cloze", category: "CRM / Productivity", description: "Smart CRM that automatically keeps track of contacts, emails, meetings, and follow-ups.", pricing: "freemium", url: "https://www.cloze.com" },
+            { name: "Introhive", category: "Relationship Intelligence", description: "AI-powered relationship insights platform for CRM automation and revenue growth.", pricing: "paid", url: "https://www.introhive.com" },
+            { name: "Pea", category: "AI Companion", description: "An emotional intelligence AI chatbot that provides mental wellness support and journaling.", pricing: "free", url: "https://www.pea.fm" },
+            { name: "Freshworks", category: "CRM / Customer Support", description: "Customer engagement suite offering AI-powered CRM, support, and marketing automation tools.", pricing: "freemium", url: "https://www.freshworks.com" },
+            { name: "Kustomer", category: "Customer Support", description: "AI-powered CRM platform focused on delivering faster, smarter, and more personalized support.", pricing: "paid", url: "https://www.kustomer.com" },
+            { name: "Appointwise", category: "Scheduling", description: "AI-powered appointment scheduling software for sales and customer service teams.", pricing: "freemium", url: "https://www.appointwise.com" },
+            { name: "Windy", category: "Weather", description: "Advanced weather forecasting tool with interactive maps and data visualization.", pricing: "free", url: "https://www.windy.com" },
+            { name: "Flok", category: "Team Collaboration", description: "AI team assistant that summarizes meetings, tracks action items, and improves team productivity.", pricing: "freemium", url: "https://www.flok.ai" },
+            { name: "Nektar", category: "Revenue Intelligence", description: "Revenue operations platform that automates CRM data capture and delivers insights.", pricing: "paid", url: "https://www.nektar.ai" },
+            { name: "Common Room", category: "Community Intelligence", description: "AI-powered tool for building and engaging online communities by aggregating data across platforms.", pricing: "freemium", url: "https://www.commonroom.io" },
+            { name: "Sybill", category: "Sales Intelligence", description: "AI assistant that records and analyzes sales calls, helping reps improve engagement and performance.", pricing: "freemium", url: "https://www.sybill.ai" },
+            { name: "PixelMe", category: "Ad & Link Tracking", description: "URL shortener with retargeting pixels for tracking ad performance and improving conversions.", pricing: "freemium", url: "https://pixelme.me" },
+            { name: "Day", category: "Productivity", description: "AI-powered personal planner that organizes your day by managing tasks, meetings, and goals efficiently.", pricing: "freemium", url: "https://www.day.ai" },
+            { name: "Dataaily", category: "AI News Aggregator", description: "Delivers daily AI news, research, and tools updates to keep you informed and ahead.", pricing: "free", url: "https://dataaily.com" },
+            { name: "Tomi", category: "AI Presentation Tool", description: "Creates professional, customizable presentations from text input using generative AI.", pricing: "freemium", url: "https://tomi.ai" },
+            { name: "Madgicx", category: "Ad Optimization", description: "AI-powered advertising platform that automates and optimizes ad campaigns across platforms.", pricing: "freemium", url: "https://madgicx.com" },
+            { name: "Balloonary", category: "Ad Creation", description: "Helps businesses launch ad campaigns in minutes using AI to write, design, and target ads.", pricing: "freemium", url: "https://balloonary.com" },
+            { name: "AdCreative", category: "Creative Automation", description: "Generates high-performing ad creatives with AI for better conversion and engagement.", pricing: "freemium", url: "https://www.adcreative.ai" },
+            { name: "Alterndz", category: "AI Startup Discovery", description: "Directory of AI alternatives for popular SaaS products, focusing on affordability and innovation.", pricing: "free", url: "https://alterndz.xyz" },
+            { name: "Salesroom", category: "Sales Communication", description: "AI-powered video meeting platform tailored for sales teams to improve buyer engagement and insights.", pricing: "freemium", url: "https://www.salesroom.com" },
+            { name: "Allego", category: "Sales Learning", description: "All-in-one platform for sales learning, content sharing, and collaboration to accelerate sales readiness.", pricing: "paid", url: "https://www.allego.com" },
+            { name: "Clari", category: "Revenue Operations", description: "AI-driven revenue platform that helps forecast, track pipeline, and improve sales team productivity.", pricing: "paid", url: "https://www.clari.com" },
+            { name: "Convin", category: "Conversation Intelligence", description: "AI tool for analyzing sales and support calls to extract insights, improve coaching, and boost conversions.", pricing: "freemium", url: "https://www.convin.ai" },
+            { name: "Demodesk", category: "Sales Meetings", description: "AI meeting platform for sales teams that enables better demos, scheduling, and collaboration in real time.", pricing: "freemium", url: "https://www.demodesk.com" },
+            { name: "JustCall", category: "Cloud Phone System", description: "AI-powered cloud phone system and contact center for customer support and sales teams.", pricing: "freemium", url: "https://www.justcall.io" },
+            { name: "Ocean", category: "AI CRM", description: "Autonomous AI CRM that manages contacts, outreach, and follow-ups to streamline relationship management.", pricing: "freemium", url: "https://www.ocean.so" },
+            { name: "Clay", category: "Relationship Management", description: "AI-powered contact management tool that brings together your contacts from various platforms.", pricing: "freemium", url: "https://www.clay.earth" },
+            { name: "Google AI Studio", category: "AI Development", description: "Official platform by Google for building, testing, and deploying AI models including Gemini apps.", pricing: "free", url: "https://aistudio.google.com" },
+            { name: "Blackbox", category: "AI Coding Assistant", description: "AI-powered coding assistant that helps developers autocomplete code, generate functions, and understand code across multiple languages.", pricing: "freemium", url: "https://www.useblackbox.io" },
+            { name: "GenSpark", category: "AI Content Generator", description: "AI-powered platform for generating creative content including stories, poems, ideas, and marketing copy.", pricing: "freemium", url: "https://www.genspark.ai" },
+            { name: "Jenni.ai", category: "AI Writing Assistant", description: "AI-powered writing assistant designed for academic and creative writing, helping users draft essays, research papers, and more.", pricing: "freemium", url: "https://jenni.ai" },
+            { name: "Resume.io", category: "AI Resume Builder", description: "AI‑powered resume and cover letter builder with recruiter‑tested ATS‑friendly templates and job-description matching.", pricing: "freemium", url: "https://resume.io" },
+            { name: "Teal", category: "AI Resume Builder", description: "AI-powered career platform offering free resume builder, job application tracker, and tailored content generator.", pricing: "freemium", url: "https://www.tealhq.com" },
+            { name: "Kickresume", category: "AI Resume Builder", description: "GPT‑4 powered platform that generates AI-written resumes, cover letters, personal websites, and ATS‑friendly templates.", pricing: "freemium", url: "https://www.kickresume.com" },
+            { name: "Nyota.ai", category: "AI Meeting Assistant", description: "AI-powered meeting assistant that automates note-taking, agenda planning, action item capture, and CRM integrations.", pricing: "paid", url: "https://www.nyota.ai" },
+            { name: "Google Veo", category: "AI Video Generation", description: "State‑of‑the‑art text‑to‑video model that generates 1080p videos with synchronized audio and dialogue from prompts.", pricing: "paid", url: "https://deepmind.google/models/veo/" },
+            { name: "OpusClip", category: "AI Video Clipping", description: "AI tool that automatically converts long videos into short, social‑media‑ready clips optimized for virality.", pricing: "freemium", url: "https://www.opus.pro" },
+            { name: "Scrip.ai", category: "AI Content Generator", description: "Free tool that generates scripts for Instagram Reels, TikToks, YouTube Shorts, sales copy, and social media posts.", pricing: "free", url: "https://scripai.com" },
+            { name: "Leonardo AI", category: "AI Image Generation", description: "AI tool for concept art, character design, and image generation with daily free credits.", pricing: "freemium", url: "https://leonardo.ai" },
+            { name: "Remove.bg", category: "AI Image Editing", description: "One‑click background removal from images; basic resolution free.", pricing: "freemium", url: "https://remove.bg" },
+            { name: "Taskade", category: "AI Productivity", description: "Notetaking, scheduling, task management with built‑in GPT‑4 workflows and a strong free tier.", pricing: "freemium", url: "https://www.taskade.com" },
+            { name: "FlowGPT", category: "AI Prompt Library", description: "Database of user‑created ChatGPT prompts and workflows; browse free without signup.", pricing: "free", url: "https://flowgpt.com" },
+            { name: "Summarize.Tech", category: "AI Video Summarizer", description: "Summarizes YouTube videos with timestamps; no login required.", pricing: "free", url: "https://summarize.tech" },
+            { name: "Phind", category: "AI Search Engine", description: "Real‑time search engine with AI responses and source citations; no signup required.", pricing: "free", url: "https://www.phind.com" },
+            { name: "ChatPDF", category: "AI PDF Chat", description: "Interact with PDF documents in chat style; free without account.", pricing: "free", url: "https://www.chatpdf.com" },
+            { name: "Apertium", category: "Machine Translation", description: "Open‑source rule‑based translation platform supporting dozens of language pairs.", pricing: "free", url: "https://www.apertium.org" },
+            { name: "CVAT", category: "Computer Vision Annotation", description: "Open‑source tool for image/video annotation, segmentation, and detection tasks.", pricing: "free", url: "https://www.cvat.ai" },
+            { name: "AutoGPT", category: "AI Agent", description: "Open-source autonomous agent that attempts tasks via GPT‑4/3.5 loops.", pricing: "free", url: "https://agpt.co" },
+            { name: "Lumio AI", category: "Multi‑LLM Workspace", description: "Unified interface to run and compare models like GPT, Gemini, Claude, Grok, and DeepSeek; build custom agents.", pricing: "freemium", url: "https://www.lumioai.tech" },
+            { name: "Scribbly AI 2.0", category: "AI Writing Tool", description: "Multi-language content generator with SEO optimization, tone-adjusters, templates, and plagiarism check.", pricing: "freemium", url: "https://scribbly.ai" },
+            { name: "DreamFrame", category: "AI Image Generation", description: "Enables 3D scene rendering, face correction, and NFT‑ready visual assets from text prompts.", pricing: "freemium", url: "https://dreamframe.io" },
+            { name: "VoiceCraft AI", category: "AI Voice Generation", description: "Ultra-natural voice synthesis in 50+ languages and accents with real-time voice translation.", pricing: "paid", url: "https://voicecraft.ai" },
+            { name: "Startilla", category: "AI Business Development", description: "Generates Lean Canvas, SWOT analysis, marketing plans, and mission/vision statements.", pricing: "free", url: "https://www.startilla.ai" },
+            { name: "Sora", category: "AI Text-to-Video Model", description: "Generative AI by OpenAI that turns text prompts into realistic short videos with image-to-video and video remixing.", pricing: "paid", url: "https://sora.chatgpt.com" },
+            { name: "Kali GPT", category: "AI Cybersecurity Assistant", description: "GPT‑4–based assistant fine‑tuned for Kali Linux workflows—automates reconnaissance, payload generation, and exploit suggestions.", pricing: "paid", url: "https://kali-gpt.com" },
+            { name: "PentestGPT", category: "AI Penetration Testing Assistant", description: "Open-source tool built on GPT‑4 that guides users through pentesting workflows—scans, payloads, analysis, and reporting.", pricing: "free", url: "https://github.com/GreyDGL/PentestGPT" },
+            { name: "CAI", category: "AI Bug Bounty Agent", description: "Framework of AI agents that automate bug bounty and CTF-style security testing; highly efficient at discovering real vulnerabilities.", pricing: "free", url: "https://arxiv.org/abs/2504.06017" },
+            { name: "Garak", category: "AI Red‑Teaming for LLMs", description: "AI tool specializing in red-teaming and jailbreak testing of large language models, simulating adversarial attacks.", pricing: "free", url: "https://github.com/leondz/garak" },
+            { name: "CyberSentinel", category: "AI Threat Detection", description: "Adaptive AI agent that detects emergent threats like brute-force SSH attacks and phishing via real-time anomaly analysis.", pricing: "free", url: "https://arxiv.org/abs/2502.14966" },
+            { name: "Vastav AI", category: "AI Deepfake Detector", description: "Real‑time detection of AI‑generated deepfake images/videos using metadata inspection and heatmap‑based analysis.", pricing: "freemium", url: "https://en.wikipedia.org/wiki/Vastav_Ai" },
+            { name: "Cyabra", category: "AI Disinformation Detection", description: "Platform that identifies fake profiles, coordinated narratives, and generative AI content campaigns.", pricing: "paid", url: "https://en.wikipedia.org/wiki/Cyabra" },
+            { name: "Noma Security", category: "AI Agent Monitoring", description: "Platform securing autonomous AI agents by monitoring access, detecting rogue behavior, and mitigating AI threats.", pricing: "paid", url: "https://noma-security.com" },
+            { name: "Codex (OpenAI)", category: "AI Software Engineering Agent", description: "Autonomous agent that writes, modifies, and runs code across multiple tasks in a development workflow.", pricing: "paid", url: "https://openai.com" },
+            { name: "OpenAI Operator", category: "AI Browser Agent", description: "Agentic tool that performs web-based tasks like filling forms, booking, and scheduling by acting through the browser.", pricing: "paid", url: "https://openai.com" },
+            { name: "MindSum", category: "AI Meeting Summarizer", description: "AI bot that joins Zoom/Teams/Meet to transcribe and produce bullet‑point summaries and action items automatically.", pricing: "freemium", url: "https://mindsum.ai" },
+            { name: "Pictomind", category: "AI Content Creator", description: "Text‑to‑thumbnail/poster/image generator ideal for social content powered by AI.", pricing: "freemium", url: "https://pictomind.com" },
+            { name: "QuickClip AI", category: "AI Video Clipping", description: "Automatically extracts social‑ready short clips from long video inputs, adding captions and music.", pricing: "freemium", url: "https://quickclip.ai" },
+            { name: "Replit", category: "Coding Platform", description: "Collaborative browser-based IDE supporting multiple languages with AI code assistance. Great for prototyping and learning.", pricing: "freemium", url: "https://replit.com" },
+            { name: "Deepnote", category: "Collaborative Notebook", description: "An AI-first Jupyter notebook with real-time collaboration, ideal for data science and machine learning teams.", pricing: "freemium", url: "https://deepnote.com" },
+            { name: "MutableAI", category: "AI Code Assistant", description: "A VS Code extension that accelerates development with code generation, auto-docstrings, and refactoring.", pricing: "freemium", url: "https://mutable.ai" },
+            { name: "Bing AI", category: "AI Chatbot", description: "GPT‑4–based AI chat with live web access via Microsoft's Bing interface.", pricing: "free", url: "https://www.bing.com/chat" },
+            { name: "Showrunner", category: "AI Entertainment", description: "Create & star in your own AI-generated TV shows from selfies and prompts.", pricing: "freemium", url: "https://www.showrunner.ai" },
+            { name: "Sortext", category: "E-commerce Conversion", description: "AI-based on-site retargeting tool that offers personalized discounts to abandoners in real time.", pricing: "freemium", url: "https://sortext.com" },
+            { name: "Pathfinder (Indeed)", category: "AI Career Agent", description: "Personalized job agent that recommends roles and explains fit—especially for candidates with non-obvious backgrounds.", pricing: "free", url: "https://www.indeed.com" },
+
+            // ── NEW 2025 / 2026 TOOLS ──
+            { name: "Lovable", category: "AI App Builder", description: "Full-stack AI app builder that generates React + Supabase applications from plain English prompts, with one-click deployment and GitHub sync.", pricing: "freemium", url: "https://lovable.dev" },
+            { name: "Bolt.new", category: "AI App Builder", description: "Browser-based full-stack AI agent by StackBlitz that scaffolds, runs, and deploys complete applications from a text description — no local setup needed.", pricing: "freemium", url: "https://bolt.new" },
+            { name: "v0 by Vercel", category: "AI App Builder", description: "Vercel's AI tool that generates production-ready React and Next.js components from prompts, with Figma-to-code support and seamless Vercel deployment.", pricing: "freemium", url: "https://v0.dev" },
+            { name: "Devin", category: "AI Software Engineer", description: "Autonomous AI software engineer by Cognition that plans, writes, debugs, and ships code end-to-end across complex multi-step tasks.", pricing: "freemium", url: "https://devin.ai" },
+            { name: "Windsurf", category: "AI Code Editor", description: "AI-native IDE (formerly Codeium's editor) with deep codebase awareness, multi-file editing, and agentic Cascade mode for autonomous coding workflows.", pricing: "freemium", url: "https://windsurf.com" },
+            { name: "Granola", category: "AI Meeting Assistant", description: "Mac-first AI meeting notes tool that runs locally, captures audio, and produces clean structured summaries and action items — no bot joins the call.", pricing: "freemium", url: "https://granola.ai" },
+            { name: "Higgsfield AI", category: "AI Image & Video", description: "All-in-one creative platform for generating and editing AI images and videos with top-tier models inside a single clean interface — built for production work.", pricing: "freemium", url: "https://higgsfield.ai" },
+            { name: "Gemini", category: "Conversational AI", description: "Google's flagship multimodal AI assistant with deep integration into Gmail, Docs, and Sheets; supports a 1M-token context window for large document analysis.", pricing: "freemium", url: "https://gemini.google.com" },
+            { name: "Microsoft Copilot", category: "Conversational AI", description: "GPT-4-powered assistant built into Windows, Edge, Office 365, and Teams; handles writing, search, code, and workflow automation across the Microsoft ecosystem.", pricing: "freemium", url: "https://copilot.microsoft.com" },
+            { name: "Shortwave", category: "AI Email Assistant", description: "AI-powered email client that triages, summarizes, and drafts replies; built for inbox-zero workflows with smart bundling and instant search.", pricing: "freemium", url: "https://www.shortwave.com" },
+            { name: "SaneBox", category: "AI Email Assistant", description: "AI layer on top of any email provider that automatically filters unimportant mail, reminds you of unanswered threads, and keeps your inbox clean.", pricing: "paid", url: "https://www.sanebox.com" },
+            { name: "Reclaim.ai", category: "AI Scheduling", description: "AI calendar assistant that automatically schedules tasks, habits, and meetings around your priorities and protects focus time.", pricing: "freemium", url: "https://reclaim.ai" },
+            { name: "Clockwise", category: "AI Scheduling", description: "AI scheduling tool that reorganizes your calendar to create uninterrupted focus blocks and coordinate team meeting times intelligently.", pricing: "freemium", url: "https://www.getclockwise.com" },
+            { name: "Surfer SEO", category: "AI SEO Tool", description: "AI-powered content editor that analyzes top-ranking pages and gives real-time SEO guidance for writing articles that rank on Google.", pricing: "paid", url: "https://surferseo.com" },
+            { name: "Frase", category: "AI SEO Tool", description: "AI research and writing tool for SEO — generates briefs, outlines, and content optimized against competitor pages and search intent.", pricing: "freemium", url: "https://www.frase.io" },
+            { name: "Clearscope", category: "AI SEO Tool", description: "Content optimization platform that grades your writing against top search results and suggests terms to include for better ranking.", pricing: "paid", url: "https://www.clearscope.io" },
+            { name: "Content at Scale", category: "AI Writing Tool", description: "AI blog writing platform designed to produce long-form, SEO-ready articles that pass AI detection tools and require minimal editing.", pricing: "paid", url: "https://contentatscale.ai" },
+            { name: "Writer AI", category: "AI Writing Tool", description: "Enterprise AI writing platform with brand voice controls, fact-checking, and team collaboration — purpose-built for marketing and content teams.", pricing: "freemium", url: "https://writer.com" },
+            { name: "Hypotenuse AI", category: "AI Writing Tool", description: "AI content generation platform for e-commerce and marketing teams — creates product descriptions, blog posts, and ad copy at scale.", pricing: "freemium", url: "https://www.hypotenuse.ai" },
+            { name: "DataLab", category: "AI Data Analysis", description: "Browser-based AI data notebook by DataCamp that lets you chat with your data to generate SQL, Python code, and visualizations without any environment setup.", pricing: "freemium", url: "https://www.datacamp.com/datalab" },
+            { name: "CoTester", category: "AI Testing & QA", description: "Enterprise AI test agent that writes, executes, and auto-heals test cases across changing UIs — designed for end-to-end QA automation.", pricing: "paid", url: "https://testgrid.io" },
+            { name: "Wispr Flow", category: "AI Voice Dictation", description: "AI voice dictation app that transcribes speech directly into any text field on Mac and Windows — 3x faster than typing with automatic cleanup.", pricing: "freemium", url: "https://wisprflow.ai" },
+            { name: "Gamma", category: "AI Presentation Tool", description: "AI tool that converts notes, documents, or prompts into polished presentations, docs, and webpages with a single click and smart design suggestions.", pricing: "freemium", url: "https://gamma.app" },
+            { name: "Claude Code", category: "AI Coding Agent", description: "Anthropic's CLI-based autonomous coding agent that reads your codebase, writes and edits files, runs tests, and commits changes with minimal prompting.", pricing: "paid", url: "https://claude.ai/code" },
+            { name: "GPT-5", category: "Conversational AI", description: "OpenAI's latest flagship language model with significantly improved reasoning, instruction following, and multimodal capabilities over GPT-4o.", pricing: "freemium", url: "https://chat.openai.com" },
+            { name: "Sora 2", category: "AI Video Generation", description: "OpenAI's advanced text-to-video model that generates cinematic, story-driven video clips with improved coherence, motion quality, and prompt fidelity.", pricing: "paid", url: "https://sora.com" },
+            { name: "Perplexity Comet", category: "AI Browser Agent", description: "Perplexity's agentic browser that autonomously navigates the web, fills forms, and completes research tasks on your behalf.", pricing: "freemium", url: "https://perplexity.ai" },
+            { name: "Alexa Plus", category: "AI Voice Assistant", description: "Amazon's next-generation generative AI voice assistant — a major upgrade to Alexa with conversational memory, smarter responses, and home automation skills.", pricing: "freemium", url: "https://www.amazon.com/alexa-plus" },
+            { name: "Google Assistant", category: "AI Voice Assistant", description: "Google's voice AI built into Android and smart home devices — handles reminders, directions, smart home control, and Google service integration hands-free.", pricing: "free", url: "https://assistant.google.com" },
+            { name: "Asana AI", category: "AI Project Management", description: "Asana's built-in AI features for project management — auto-generates tasks, summarizes project status, and surfaces bottlenecks across team workflows.", pricing: "freemium", url: "https://asana.com" },
+            { name: "ClickUp AI", category: "AI Project Management", description: "AI writing and productivity assistant inside ClickUp that drafts docs, summarizes threads, generates subtasks, and answers questions about your workspace.", pricing: "freemium", url: "https://clickup.com" },
+            { name: "Aider", category: "AI Coding Agent", description: "Open-source terminal-based AI coding assistant that edits code across multiple files, commits changes to Git, and works with any LLM via API.", pricing: "free", url: "https://aider.chat" },
+            { name: "Cline", category: "AI Coding Agent", description: "Open-source VS Code extension that acts as an autonomous AI coding agent — reads, writes, executes, and debugs code across your entire project.", pricing: "free", url: "https://github.com/cline/cline" },
+            { name: "Firebase Studio", category: "AI App Builder", description: "Google's AI-powered cloud IDE for building full-stack Firebase applications — from prompt to deployed app with built-in auth, database, and hosting.", pricing: "freemium", url: "https://firebase.studio" },
+            { name: "Taskade Genesis", category: "AI App Builder", description: "AI workspace that builds living apps with embedded agents, 100+ integrations, and workflow automation from a single plain-English prompt.", pricing: "freemium", url: "https://www.taskade.com/genesis" },
+            { name: "LM Studio", category: "AI Local Runtime", description: "Desktop app for downloading and running open-source large language models fully offline on your local machine — no API key or internet required.", pricing: "freemium", url: "https://lmstudio.ai" },
+            { name: "Harvey AI", category: "AI Legal Assistant", description: "AI platform purpose-built for lawyers and law firms — drafts contracts, memos, and legal documents using models trained on legal data.", pricing: "paid", url: "https://www.harvey.ai" },
+            { name: "Genspark", category: "AI Search & Research", description: "AI-powered research engine that generates comprehensive, structured 'Sparkpages' — synthesized deep dives on any topic with source citations.", pricing: "free", url: "https://www.genspark.ai" },
+            { name: "Replit Agent", category: "AI App Builder", description: "Replit's agentic AI mode that builds full-stack apps from descriptions with built-in database, auth, hosting, and 30+ integrations like Stripe and Figma.", pricing: "freemium", url: "https://replit.com" },
+            { name: "Microsoft Copilot Studio", category: "AI Agent Builder", description: "Low-code platform for building custom AI agents and copilots on top of Azure OpenAI and Microsoft 365 data — no deep ML expertise required.", pricing: "freemium", url: "https://copilotstudio.microsoft.com" },
+            { name: "Ideogram", category: "AI Image Generation", description: "AI image generator known for accurate text rendering inside images — ideal for creating logos, posters, and typographic designs from prompts.", pricing: "freemium", url: "https://ideogram.ai" },
+            { name: "Kling AI", category: "AI Video Generation", description: "Chinese AI video generation model by Kuaishou capable of producing high-quality, physics-accurate video clips from text or image prompts.", pricing: "freemium", url: "https://klingai.com" },
+            { name: "Hailuo AI", category: "AI Video Generation", description: "MiniMax's AI video generation platform producing smooth, cinematic short clips from text prompts with strong motion consistency.", pricing: "freemium", url: "https://hailuoai.com" },
+            { name: "Hedra", category: "AI Video Generation", description: "AI tool for creating talking-head videos from a single image and audio clip — widely used for AI avatars and character animation.", pricing: "freemium", url: "https://www.hedra.com" },
+            { name: "Napkin AI", category: "AI Diagram Tool", description: "Turns written text or notes into visual diagrams, flowcharts, and infographics automatically — no design skills needed.", pricing: "freemium", url: "https://www.napkin.ai" },
+            { name: "Gemini Deep Research", category: "AI Research Tool", description: "Gemini's agentic research mode that autonomously browses the web, reads sources, and compiles comprehensive multi-page research reports on any topic.", pricing: "freemium", url: "https://gemini.google.com" },
+            
+        ];
+
+        let filteredTools = [...aiTools];
+
+        const categoryFilter = document.getElementById('categoryFilter');
+        const pricingFilter = document.getElementById('pricingFilter');
+        const searchInput = document.getElementById('searchInput');
+        const toolsGrid = document.getElementById('toolsGrid');
+        const noResults = document.getElementById('noResults');
+        const totalToolsEl = document.getElementById('totalTools');
+        const freeToolsEl = document.getElementById('freeTools');
+        const categoriesEl = document.getElementById('categories');
+
+        function getPricingClass(pricing) {
+            if (!pricing) return '';
+            const p = pricing.toLowerCase();
+            if (p === 'free') return 'pricing-free';
+            if (p === 'paid') return 'pricing-paid';
+            if (p === 'freemium') return 'pricing-freemium';
+            return '';
+        }
+
+        function getPricingLabel(pricing) {
+            if (!pricing) return '';
+            const p = pricing.toLowerCase();
+            if (p === 'free') return 'Free';
+            if (p === 'paid') return 'Paid';
+            if (p === 'freemium') return 'Freemium';
+            return pricing.charAt(0).toUpperCase() + pricing.slice(1);
+        }
+
+        function init() {
+            populateCategories();
+            updateStats();
+            renderTools();
+            setupEventListeners();
+        }
+
+        function populateCategories() {
+            const categories = [...new Set(aiTools.map(tool => tool.category))].sort();
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                categoryFilter.appendChild(option);
+            });
+        }
+
+        function updateStats() {
+            const freeToolsCount = aiTools.filter(tool => tool.pricing === 'free').length;
+            const categoriesCount = new Set(aiTools.map(tool => tool.category)).size;
+            totalToolsEl.textContent = aiTools.length;
+            freeToolsEl.textContent = freeToolsCount;
+            categoriesEl.textContent = categoriesCount;
+        }
+
+        function renderTools() {
+            if (filteredTools.length === 0) {
+                toolsGrid.style.display = 'none';
+                noResults.style.display = 'block';
+                return;
+            }
+            toolsGrid.style.display = 'grid';
+            noResults.style.display = 'none';
+            toolsGrid.innerHTML = filteredTools.map(tool => `
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div>
+                            <h3 class="tool-name">${tool.name}</h3>
+                        </div>
+                        <span class="tool-category">${tool.category}</span>
+                    </div>
+                    <p class="tool-description">${tool.description}</p>
+                    <div class="tool-footer">
+                        <span class="pricing-badge ${getPricingClass(tool.pricing)}">
+                            ${getPricingLabel(tool.pricing)}
+                        </span>
+                        <a href="${tool.url}" target="_blank" class="tool-link">Visit Tool</a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterTools() {
+            const selectedCategory = categoryFilter.value;
+            const selectedPricing = pricingFilter.value;
+            const searchTerm = searchInput.value.toLowerCase();
+            filteredTools = aiTools.filter(tool => {
+                const matchesCategory = !selectedCategory || tool.category === selectedCategory;
+                const matchesPricing = !selectedPricing || tool.pricing === selectedPricing;
+                const matchesSearch = !searchTerm ||
+                    tool.name.toLowerCase().includes(searchTerm) ||
+                    tool.description.toLowerCase().includes(searchTerm) ||
+                    tool.category.toLowerCase().includes(searchTerm);
+                return matchesCategory && matchesPricing && matchesSearch;
+            });
+            renderTools();
+        }
+
+        function setupEventListeners() {
+            categoryFilter.addEventListener('change', filterTools);
+            pricingFilter.addEventListener('change', filterTools);
+            searchInput.addEventListener('input', filterTools);
+        }
+
+        init();
+    </script>
+</body>
+</html>
+<!-- this is a marker, will do a proper injection below -->
